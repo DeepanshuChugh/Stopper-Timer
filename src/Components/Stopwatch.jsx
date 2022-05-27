@@ -4,12 +4,16 @@ import styles from './stop.module.css'
 
 const Stopwatch = () => {
  
+
     const [timer,setTimer]=useState(0)
     const [timerOn,setTimerOn]=useState(false)
     const [lap,setLap]=useState([])
+
+    // Time format
     let m =('0'+Math.floor(timer/60000)%60).slice(-2);
     let s =('0'+Math.floor(timer/1000)%60).slice(-2);
     let ms =('0'+(timer/10)%100).slice(-2);
+
     useEffect(()=>{
         let id = null;
         if(timerOn)
@@ -28,10 +32,6 @@ const Stopwatch = () => {
 
     },[timerOn])
 
-//    const lap =()=> {
-//     console.log(m,':',s,':',ms);
-//    }
- 
   return (
     <>
     <div>
@@ -52,9 +52,11 @@ const Stopwatch = () => {
     <button onClick={()=>{setTimerOn(true)}}>Resume</button>
     )}
     {timer>0 && !timerOn &&(
-    <button onClick={()=>{setTimer(0)}}>Reset</button>
+    <button onClick={()=>{setTimer(0);setLap([])}}>Reset</button>
     )}
+     {timer!==0 && timerOn &&(
     <button onClick={()=>{setLap([[`${m}:${s}:${ms}`],...lap])}}>LAP</button>
+    )}
     {lap.map((el,ind)=>(<Lap lap={el} ind={ind}/>))}
     </>
   )
